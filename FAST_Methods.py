@@ -6,10 +6,10 @@ import numpy as np
 import utils
 
 
-class SIFT_Methods:
-    def __init__(self, Preprocessing):
-        self.sift = cv.SIFT_create(
-            nfeatures=0, nOctaveLayers=3, contrastThreshold=0.04, edgeThreshold=30, sigma=1.3)
+class FAST_Methods:
+    def __init__(self, Preprocessing, threshold=45, nonmaxSuppression=True, type=cv.FAST_FEATURE_DETECTOR_TYPE_9_16):
+        self.fast = cv.FastFeatureDetector_create(
+            threshold=threshold, nonmaxSuppression=nonmaxSuppression, type=type)
         self.Preprocessing = Preprocessing
 
     def feature_extraction(self, img):
@@ -22,14 +22,14 @@ class SIFT_Methods:
             kp, des: keypoints and descriptors
         """
         img_pre = self.Preprocessing(img)
-        kp, des = self.sift.detectAndCompute(img_pre, None)
-        return kp, des
+        kp = self.fast.detect(img_pre, None)
+        return kp
 
     def feature_matching_BF(self, kp, des, norm=cv.NORM_L2, k=2, dis_threshold=60, spatial_dis_threshold=10):
-        """Function for feature matching using Brute Force
+        """Function for feature matching using Brute Force 
 
         Args:
-            kp (tuple): keypoints
+            kp (tuple): keypoints 
             des (np.ndarray): descriptors for keypoints, histogram of oriented gradients, shape (N, 128)
             norm (_type_, optional): _description_. Defaults to cv.NORM_L2.
             k (int, optional): _description_. Defaults to 2.
@@ -58,7 +58,7 @@ class SIFT_Methods:
         """Function for feature matching using Flann
 
         Args:
-            kp (tuple): keypoints
+            kp (tuple): keypoints 
             des (np.ndarray): descriptors for keypoints, histogram of oriented gradients, shape (N, 128)
             dis_threshold (int, optional): Feature distance threshold. Defaults to 60.
             spatial_dis_threshold (int, optional): Spatial distance threshold. Defaults to 10.
@@ -84,26 +84,13 @@ class SIFT_Methods:
                     break
         return good
 
-    def predict(self, img):
-        kp, des = self.feature_extraction(img)
-        matchpt = self.feature_matching_BF(
-            kp, des, dis_threshold=60, spatial_dis_threshold=5)
-        return matchpt
-
 
 if __name__ == "__main__":
     df = utils.load_data_csv()
-    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][22]))
-    sift = SIFT_Methods(utils.bgr2gray)
-    kp, des = sift.feature_extraction(img)
-    # matchpt = sift.feature_matching_BF(
-    #     kp, des, k=2, dis_threshold=65, spatial_dis_threshold=10)
-    matchpt = sift.feature_matching_Flann(
-        kp, des, dis_threshold=60, spatial_dis_threshold=5)
-    for m in matchpt:
-        img = cv.line(img, m[0].astype(int), m[1].astype(int), (0, 255, 0), 1)
-    # img = cv.drawKeypoints(
-        # img, kp, img, flags = cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][0]))
+
+    fast = FAST_Methods(utils.bgr2gray)
+    kp = fast.feature_extraction(img)
+    img = cv.drawKeypoints(img, kp, None, color=(255, 0, 0))
     cv.imshow('img', img)
     cv.waitKey(0)
-    cv.destroyAllWindows()
