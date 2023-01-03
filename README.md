@@ -5,18 +5,39 @@ Copy-Move Forgery Detection and Localization
 
 ## Introduction
 
-[Copy-Move Forgery Detection(CMFD)](https://en.wikipedia.org/wiki/Copy-move_forgery_detection) is a technique to detect and localize copy-move forgery in images. The goal of this project is to implement multiple CMFD algorithms in python and evaluate the performance.
+Copy-Move Forgery Detection (CMFD) is a technique to detect and localize copy-move forgery in images. The goal of this project is to implement multiple CMFD algorithms in python and evaluate the performance.
 
 ## Group Member
 
 + [Haotian Hong](https://github.com/bughht)
 + [Zhenyu Jin](https://github.com/getOcr)
++ Anyone who is contributing to this project
+
+## Phylosophy
+
+*Talk is cheap, show me the code.*
 
 ## Dataset
 
 [MICC-F220](http://lci.micc.unifi.it/labd/cmfd/MICC-F220.zip): this dataset is composed by 220 images; 110 are tampered and 110 originals.
 
-## Project Goals
+## Baseline
+
+The baseline is a sift-based algorithm implemented in Python. With current parameters, the evaluation result of this algorithm on MICC-F220 is shown below.
+
++ Accuracy: 80.00%
++ Precision: 75.78%
++ Recall: 88.18%
++ F1-Score: 81.51%
++ Confusion-Matrix: ![cm](img/confusion-matrix.png)
+
+## Pre-requisites
+
+'''python
+pip install -r Requirements.txt
+'''
+
+## Project Goals Checkbox
 
 + [x] Implement block-based algorithm (*it sucks because of its O(n^4) time complexity*)
 + [ ] Implement feature-point-based algorithm.
@@ -27,9 +48,9 @@ Copy-Move Forgery Detection and Localization
   + [x] Brute-force matching
   + [x] Fann matching
   + [ ] Hu moments matching
-+ [ ] Design a model performance evaluation framework
++ [x] Design a model performance evaluation framework
   + [x] Torch Dataset and DataLoader wrapper
-  + [ ] Model performance evaluation
+  + [x] Model performance evaluation
 
 ## Contribution
 

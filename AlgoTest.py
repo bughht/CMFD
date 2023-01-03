@@ -1,11 +1,15 @@
 import argparse
 import importlib
 
+import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from Dataset import MICC_F220
+
+sns.set_style("whitegrid")
 
 
 def load_algorithm():
@@ -36,17 +40,33 @@ def load_dataloader():
         dataset,
         batch_size=1,
         shuffle=True,
-        num_workers=2
+        num_workers=3
     )
     return dataloader
 
 
-def result_evaluation(result):
+def result_evaluation_basic(result):
     acc = (result[0, 0]+result[1, 1])/result.sum()
     prec = result[1, 1]/(result[1, 1]+result[0, 1])
     recall = result[1, 1]/(result[1, 1]+result[1, 0])
-    F = 2*prec*recall/(prec+recall)
-    return acc, prec, recall, F
+    F1 = 2*prec*recall/(prec+recall)
+    return acc, prec, recall, F1
+
+
+def plot_confusion_matrix(cm, labels_name, title):
+    sns.heatmap(
+        cm/np.sum(cm),
+        cmap='Blues',
+        fmt='.2%',
+        annot=True,
+        xticklabels=labels_name,
+        yticklabels=labels_name,
+        square=True
+    )
+    plt.suptitle(title)
+    plt.xlabel('True label')
+    plt.ylabel('Predicted label')
+    plt.show()
 
 
 def test_result(algorithm, dataloader):
@@ -55,9 +75,9 @@ def test_result(algorithm, dataloader):
         # print(img.shape)
         pred = algorithm.predict(img[0].numpy())
         result[label, pred] += 1
-        acc, prec, recall, F = result_evaluation(result)
+        acc, prec, recall, F1 = result_evaluation_basic(result)
         pbar.set_description("Accuracy: {:.2f}% Precision:{:.2f}% Recall:{:.2f}% F Score: {:.2F}%".format(
-            (acc*100), (prec*100), (recall*100), (F*100)))
+            (acc*100), (prec*100), (recall*100), (F1*100)))
         pbar.refresh()
     return result
 
@@ -65,4 +85,6 @@ def test_result(algorithm, dataloader):
 if __name__ == "__main__":
     algorithm = load_algorithm()
     dataloader = load_dataloader()
-    result = test_result(algorithm, dataloader)
+    cm = test_result(algorithm, dataloader)
+    plot_confusion_matrix(cm, ['False', 'True'],
+                          'Confusion Matrix for CMFD Algorithm')

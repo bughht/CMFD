@@ -1,0 +1,8 @@
+opencv-python
+opencv-contrib-python
+numpy
+scipy
+matplotlib
+seaborn
+torch
+pandas
