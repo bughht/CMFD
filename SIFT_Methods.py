@@ -9,10 +9,10 @@ import utils
 
 
 class SIFT_Methods:
-    def __init__(self, Preprocessing):
+    def __init__(self):
         self.sift = cv.SIFT_create(
-            nfeatures=0, nOctaveLayers=3, contrastThreshold=0.03, edgeThreshold=80, sigma=1.3)
-        self.Preprocessing = Preprocessing
+            nfeatures=0, nOctaveLayers=3, contrastThreshold=0.05, edgeThreshold=6, sigma=1.5)
+        self.Preprocessing = utils.bgr2gray
 
     def feature_extraction(self, img):
         """Extract features from preprocessed image
@@ -56,7 +56,7 @@ class SIFT_Methods:
                     break
         return np.asarray(good)
 
-    def feature_matching_Flann(self, kp, des, k=2, dis_threshold=60, spatial_dis_threshold=10):
+    def feature_matching_Flann(self, kp, des, k=3, dis_threshold=60, spatial_dis_threshold=10):
         """Function for feature matching using Flann
 
         Args:
@@ -88,13 +88,22 @@ class SIFT_Methods:
 
     def predict(self,
                 img,
-                dis_threshold=50,
-                spatial_dis_threshold=5
+                k=4,
+                dis_threshold=93,
+                spatial_dis_threshold=15,
+                match_method='BF'
                 ):
 
         kp, des = self.feature_extraction(img)
-        matchpt = self.feature_matching_BF(
-            kp, des, dis_threshold=dis_threshold, spatial_dis_threshold=spatial_dis_threshold)
+        assert match_method in [
+            'BF', 'Flann'], "Method should be either 'BF' or 'Flann'"
+        if match_method == 'BF':
+            matchpt = self.feature_matching_BF(
+                kp, des, k=k, dis_threshold=dis_threshold, spatial_dis_threshold=spatial_dis_threshold)
+        else:
+            matchpt = self.feature_matching_Flann(
+                kp, des, k=k, dis_threshold=dis_threshold, spatial_dis_threshold=spatial_dis_threshold)
+
         if matchpt.shape[0] == 0:
             return 0
         else:
@@ -115,19 +124,21 @@ class SIFT_Methods:
 if __name__ == "__main__":
     from time import time
     df = utils.load_data_csv()
-    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][210]))
-    sift = SIFT_Methods(utils.bgr2gray)
-    t0 = time()
-    pred = sift.predict(img)
-    t1 = time()
-    print("Prediction: {}".format(pred))
-    print("Time Cost: {}".format(t1-t0))
+    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][25]))
+    sift = SIFT_Methods()
+    # t0 = time()
+    # pred = sift.predict(img)
+    # t1 = time()
+    # print("Prediction: {}".format(pred))
+    # print("Time Cost: {}".format(t1-t0))
     kp, des = sift.feature_extraction(img)
-    matchpt = sift.feature_matching_Flann(
-        kp, des, dis_threshold=55, spatial_dis_threshold=5)
-    # print(matchpt.shape)
+    matchpt = sift.feature_matching_BF(
+        kp, des, dis_threshold=100, spatial_dis_threshold=5)
+    print(matchpt.shape)
     # pts = np.unique(np.vstack(matchpt), axis=0)
     # obtain condensed distance matrix (needed in linkage function)
+    # img = cv.drawKeypoints(
+    #     img, kp, img, flags=cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     for m in matchpt:
         img = cv.line(img, m[0].astype(int), m[1].astype(int), (0, 255, 0), 1)
     cv.imshow('img', img)
