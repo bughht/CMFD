@@ -2,6 +2,8 @@ import os
 
 import cv2 as cv
 import numpy as np
+from scipy.cluster import hierarchy
+from scipy.spatial.distance import pdist
 
 import utils
 
@@ -9,7 +11,7 @@ import utils
 class SIFT_Methods:
     def __init__(self, Preprocessing):
         self.sift = cv.SIFT_create(
-            nfeatures=0, nOctaveLayers=3, contrastThreshold=0.04, edgeThreshold=30, sigma=1.3)
+            nfeatures=0, nOctaveLayers=3, contrastThreshold=0.03, edgeThreshold=80, sigma=1.3)
         self.Preprocessing = Preprocessing
 
     def feature_extraction(self, img):
@@ -25,7 +27,7 @@ class SIFT_Methods:
         kp, des = self.sift.detectAndCompute(img_pre, None)
         return kp, des
 
-    def feature_matching_BF(self, kp, des, norm=cv.NORM_L2, k=2, dis_threshold=60, spatial_dis_threshold=10):
+    def feature_matching_BF(self, kp, des, norm=cv.NORM_L2, k=3, dis_threshold=60, spatial_dis_threshold=10):
         """Function for feature matching using Brute Force
 
         Args:
@@ -52,9 +54,9 @@ class SIFT_Methods:
                         good.append([p1, p2])
                 else:
                     break
-        return good
+        return np.asarray(good)
 
-    def feature_matching_Flann(self, kp, des, dis_threshold=60, spatial_dis_threshold=10):
+    def feature_matching_Flann(self, kp, des, k=2, dis_threshold=60, spatial_dis_threshold=10):
         """Function for feature matching using Flann
 
         Args:
@@ -70,8 +72,8 @@ class SIFT_Methods:
         index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
         search_params = dict(checks=50)
         flann = cv.FlannBasedMatcher(index_params, search_params)
-        matches = flann.knnMatch(des, des, k=2)
-        good = []
+        matches = flann.knnMatch(des, des, k=k)
+        pair = []
         for m in matches:
             m = m[1:]
             for match in m:
@@ -79,31 +81,55 @@ class SIFT_Methods:
                     p1, p2 = np.array(kp[match.queryIdx].pt), np.array(
                         kp[match.trainIdx].pt)
                     if np.linalg.norm(p1-p2, ord=2) > spatial_dis_threshold:
-                        good.append([p1, p2])
+                        pair.append([p1, p2])
                 else:
                     break
-        return good
+        return np.asarray(pair)
 
-    def predict(self, img):
+    def predict(self,
+                img,
+                dis_threshold=50,
+                spatial_dis_threshold=5
+                ):
+
         kp, des = self.feature_extraction(img)
         matchpt = self.feature_matching_BF(
-            kp, des, dis_threshold=60, spatial_dis_threshold=5)
-        return matchpt
+            kp, des, dis_threshold=dis_threshold, spatial_dis_threshold=spatial_dis_threshold)
+        if matchpt.shape[0] == 0:
+            return 0
+        else:
+            pts = np.unique(np.vstack(matchpt), axis=0)
+            dist_matrix = pdist(pts, metric='euclidean')
+            Z = hierarchy.linkage(dist_matrix, metric='euclidean')
+            cluster = hierarchy.fcluster(
+                Z, t=2, criterion='inconsistent', depth=4)
+            _, counts = np.unique(cluster, return_counts=True)
+            counts = np.sort(counts)
+            top2_cluster = counts[-2:]
+            if top2_cluster.sum() >= 8:
+                return 1
+            else:
+                return 0
 
 
 if __name__ == "__main__":
+    from time import time
     df = utils.load_data_csv()
-    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][22]))
+    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][210]))
     sift = SIFT_Methods(utils.bgr2gray)
+    t0 = time()
+    pred = sift.predict(img)
+    t1 = time()
+    print("Prediction: {}".format(pred))
+    print("Time Cost: {}".format(t1-t0))
     kp, des = sift.feature_extraction(img)
-    # matchpt = sift.feature_matching_BF(
-    #     kp, des, k=2, dis_threshold=65, spatial_dis_threshold=10)
     matchpt = sift.feature_matching_Flann(
-        kp, des, dis_threshold=60, spatial_dis_threshold=5)
+        kp, des, dis_threshold=55, spatial_dis_threshold=5)
+    # print(matchpt.shape)
+    # pts = np.unique(np.vstack(matchpt), axis=0)
+    # obtain condensed distance matrix (needed in linkage function)
     for m in matchpt:
         img = cv.line(img, m[0].astype(int), m[1].astype(int), (0, 255, 0), 1)
-    # img = cv.drawKeypoints(
-        # img, kp, img, flags = cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     cv.imshow('img', img)
     cv.waitKey(0)
     cv.destroyAllWindows()
