@@ -124,7 +124,7 @@ class SIFT_Methods:
 if __name__ == "__main__":
     from time import time
     df = utils.load_data_csv()
-    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][0]))
+    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][25]))
     sift = SIFT_Methods()
     # t0 = time()
     # pred = sift.predict(img)
@@ -137,6 +137,7 @@ if __name__ == "__main__":
     print(matchpt.shape)
     # pts = np.unique(np.vstack(matchpt), axis=0)
     # obtain condensed distance matrix (needed in linkage function)
+    cv.imshow('img_ori', img)
     img = cv.drawKeypoints(
         img, kp, img, flags=cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     for m in matchpt:

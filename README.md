@@ -47,6 +47,7 @@ pip install -r Requirements.txt
   + [x] SIFT feature
   + [ ] FAST feature
   + [ ] ORB feature
+  + [ ] Harris feature
 + [ ] Implement matching algorithms
   + [x] Brute-force matching
   + [x] Fann matching
