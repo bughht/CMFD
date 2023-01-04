@@ -32,7 +32,7 @@ The baseline is a sift-based algorithm implemented in Python. With current param
 
 ![cm](img/confusion-matrix.png)
 
-## Pre-requisites
+## Requirements 
 
 python 3.7+
 
