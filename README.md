@@ -7,12 +7,10 @@ Copy-Move Forgery Detection and Localization
 
 Copy-Move Forgery Detection (CMFD) is a technique to detect and localize copy-move forgery in images. The goal of this project is to implement multiple CMFD algorithms in python and evaluate the performance.
 
-## Group Member
+## Group Info
 
 + [Haotian Hong](https://github.com/bughht)
 + [Zhenyu Jin](https://github.com/getOcr)
-
-## Phylosophy
 
 *Talk is cheap, show me the code.*
 
@@ -36,9 +34,11 @@ The baseline is a sift-based algorithm implemented in Python. With current param
 
 ## Pre-requisites
 
-'''python
+python 3.7+
+
+```python
 pip install -r Requirements.txt
-'''
+```
 
 ## Project Goals Checkbox
 
