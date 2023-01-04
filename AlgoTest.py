@@ -1,15 +1,18 @@
 import argparse
 import importlib
+import warnings
 
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+from sklearn.metrics import classification_report
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from Dataset import MICC_F220
 
 sns.set_style("whitegrid")
+warnings.filterwarnings("ignore")
 
 
 def load_algorithm():
@@ -64,22 +67,28 @@ def plot_confusion_matrix(cm, labels_name, title):
         square=True
     )
     plt.suptitle(title)
-    plt.xlabel('True label')
-    plt.ylabel('Predicted label')
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
     plt.show()
 
 
 def test_result(algorithm, dataloader):
-    result = np.zeros((2, 2))
+    cm = np.zeros((2, 2))
+    labels = []
+    preds = []
     for img, label in (pbar := tqdm(dataloader)):
         # print(img.shape)
         pred = algorithm.predict(img[0].numpy())
-        result[label, pred] += 1
-        acc, prec, recall, F1 = result_evaluation_basic(result)
-        pbar.set_description("Accuracy: {:.2f}% Precision:{:.2f}% Recall:{:.2f}% F Score: {:.2F}%".format(
+        labels.append(label[0].item())
+        preds.append(pred)
+        cm[label, pred] += 1
+        acc, prec, recall, F1 = result_evaluation_basic(cm)
+        pbar.set_description("Accuracy:{:.2f}% Precision:{:.2f}% Recall:{:.2f}% F1 Score:{:.2F}%".format(
             (acc*100), (prec*100), (recall*100), (F1*100)))
         pbar.refresh()
-    return result
+    print(classification_report(labels, preds,
+          target_names=['No Copy-Move', 'Copy-Move']))
+    return cm
 
 
 if __name__ == "__main__":
@@ -87,4 +96,4 @@ if __name__ == "__main__":
     dataloader = load_dataloader()
     cm = test_result(algorithm, dataloader)
     plot_confusion_matrix(cm, ['False', 'True'],
-                          'Confusion Matrix for CMFD Algorithm')
+                          'Confusion matrix for algorithm {}'.format(algorithm.__class__.__name__))

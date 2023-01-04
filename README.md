@@ -11,7 +11,6 @@ Copy-Move Forgery Detection (CMFD) is a technique to detect and localize copy-mo
 
 + [Haotian Hong](https://github.com/bughht)
 + [Zhenyu Jin](https://github.com/getOcr)
-+ Anyone who is contributing to this project
 
 ## Phylosophy
 
@@ -25,10 +24,12 @@ Copy-Move Forgery Detection (CMFD) is a technique to detect and localize copy-mo
 
 The baseline is a sift-based algorithm implemented in Python. With current parameters, the evaluation result of this algorithm on MICC-F220 is shown below.
 
-+ Accuracy: 80.00%
-+ Precision: 75.78%
-+ Recall: 88.18%
-+ F1-Score: 81.51%
+|              | precision | recall | f1-score | support |
+| -----------: | :-------- | :----- | :------- | :------ |
+| No Copy-Move | 0.88      | 0.73   | 0.80     | 110     |
+|    Copy-Move | 0.77      | 0.90   | 0.83     | 110     |
+
++ Accuracy: 81.36%
 + Confusion-Matrix: ![cm](img/confusion-matrix.png)
 
 ## Pre-requisites

@@ -88,8 +88,8 @@ class SIFT_Methods:
 
     def predict(self,
                 img,
-                k=4,
-                dis_threshold=93,
+                k=2,
+                dis_threshold=94,
                 spatial_dis_threshold=15,
                 match_method='BF'
                 ):
@@ -124,7 +124,7 @@ class SIFT_Methods:
 if __name__ == "__main__":
     from time import time
     df = utils.load_data_csv()
-    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][25]))
+    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][0]))
     sift = SIFT_Methods()
     # t0 = time()
     # pred = sift.predict(img)
@@ -137,10 +137,11 @@ if __name__ == "__main__":
     print(matchpt.shape)
     # pts = np.unique(np.vstack(matchpt), axis=0)
     # obtain condensed distance matrix (needed in linkage function)
-    # img = cv.drawKeypoints(
-    #     img, kp, img, flags=cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    img = cv.drawKeypoints(
+        img, kp, img, flags=cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     for m in matchpt:
-        img = cv.line(img, m[0].astype(int), m[1].astype(int), (0, 255, 0), 1)
+        img = cv.line(img, m[0].astype(int),
+                      m[1].astype(int), (0, 255, 0), 2)
     cv.imshow('img', img)
     cv.waitKey(0)
     cv.destroyAllWindows()
