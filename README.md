@@ -30,7 +30,9 @@ The baseline is a sift-based algorithm implemented in Python. With current param
 |    Copy-Move | 0.77      | 0.90   | 0.83     | 110     |
 
 + Accuracy: 81.36%
-+ Confusion-Matrix: ![cm](img/confusion-matrix.png)
++ Confusion-Matrix:
+
+![cm](img/confusion-matrix.png)
 
 ## Pre-requisites
 

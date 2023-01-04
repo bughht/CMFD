@@ -56,7 +56,8 @@ def result_evaluation_basic(result):
     return acc, prec, recall, F1
 
 
-def plot_confusion_matrix(cm, labels_name, title):
+def plot_confusion_matrix(cm, labels_name):
+    fig, ax = plt.subplots(figsize=(5, 4))
     sns.heatmap(
         cm/np.sum(cm),
         cmap='Blues',
@@ -64,9 +65,12 @@ def plot_confusion_matrix(cm, labels_name, title):
         annot=True,
         xticklabels=labels_name,
         yticklabels=labels_name,
-        square=True
+        square=True,
+        ax=ax
     )
-    plt.suptitle(title)
+    ax.xaxis.tick_top()
+    ax.xaxis.set_label_position('top')
+    # plt.suptitle(title)
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
     plt.show()
@@ -95,5 +99,4 @@ if __name__ == "__main__":
     algorithm = load_algorithm()
     dataloader = load_dataloader()
     cm = test_result(algorithm, dataloader)
-    plot_confusion_matrix(cm, ['False', 'True'],
-                          'Confusion matrix for algorithm {}'.format(algorithm.__class__.__name__))
+    plot_confusion_matrix(cm, ['No Copy-Move', 'Copy-Move'])
