@@ -29,8 +29,9 @@ def load_algorithm():
         ALGO = importlib.import_module(args.algorithm)
         # Please make sure the algorithm class name is the same as the file name and has no arguments
         algorithm = getattr(ALGO, args.algorithm)()
-    except:
+    except ModuleNotFoundError as e:
         print('Error: Failed to load algorithm {}'.format(args.algorithm))
+        print(e)
         exit(1)
 
     print("Successfully Load Algorithm {}".format(args.algorithm))
@@ -66,7 +67,9 @@ def plot_confusion_matrix(cm, labels_name):
         xticklabels=labels_name,
         yticklabels=labels_name,
         square=True,
-        ax=ax
+        ax=ax,
+        # vmin=0,
+        # vmax=1
     )
     ax.xaxis.tick_top()
     ax.xaxis.set_label_position('top')

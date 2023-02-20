@@ -18,21 +18,7 @@ Copy-Move Forgery Detection (CMFD) is a technique to detect and localize copy-mo
 
 [MICC-F220](http://lci.micc.unifi.it/labd/cmfd/MICC-F220.zip): this dataset is composed by 220 images; 110 are tampered and 110 originals.
 
-## Baseline
-
-The baseline is a sift-based algorithm implemented in Python. With current parameters, the evaluation result of this algorithm on MICC-F220 is shown below.
-
-|              | precision | recall | f1-score | support |
-| -----------: | :-------- | :----- | :------- | :------ |
-| No Copy-Move | 0.88      | 0.73   | 0.80     | 110     |
-|    Copy-Move | 0.77      | 0.90   | 0.83     | 110     |
-
-+ Accuracy: 81.36%
-+ Confusion-Matrix:
-
-![cm](img/confusion-matrix.png)
-
-## Requirements 
+## Requirements
 
 python 3.7+
 
@@ -40,13 +26,47 @@ python 3.7+
 pip install -r Requirements.txt
 ```
 
+## Baseline: SIFT
+
+The baseline is a sift-based algorithm implemented in Python. With current parameters, the evaluation result of this algorithm on MICC-F220 is shown below.
+
+**Accuracy:** 81.36%
+**Precision:** 76.74%
+**Recall:** 90.00%
+**F1 Score:** 82.85%
+
+## Experiment Results
+
+### SIFT
+
+| SIFT         | precision | recall | f1-score | support |
+| ------------ | :-------- | :----- | :------- | :------ |
+| No Copy-Move | 0.88      | 0.73   | 0.80     | 110     |
+| Copy-Move    | 0.77      | 0.90   | 0.83     | 110     |
+
++ Accuracy:81.36% Precision:76.74% Recall:90.00% F1 Score:82.85%
++ Confusion-Matrix:
+
+![cm](img/cm_SIFT.png)
+
+### ORB
+
+| ORB          | precision | recall | f1-score | support |
+| ------------ | :-------- | :----- | :------- | :------ |
+| No Copy-Move | 0.65      | 0.75   | 0.69     | 110     |
+| Copy-Move    | 0.70      | 0.60   | 0.65     | 110     |
+
++ Accuracy:67.27% Precision:70.21% Recall:60.00% F1 Score:64.71%
++ Confusion-Matrix:
+
+![cm](img/cm_ORB.png)
+
 ## Project Goals Checkbox
 
 + [x] Implement block-based algorithm (*it sucks because of its O(n^4) time complexity*)
 + [ ] Implement feature-point-based algorithm.
   + [x] SIFT feature
-  + [ ] FAST feature
-  + [ ] ORB feature
+  + [x] ORB feature
   + [ ] Harris feature
 + [ ] Implement matching algorithms
   + [x] Brute-force matching
