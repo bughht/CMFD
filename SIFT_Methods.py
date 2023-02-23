@@ -11,6 +11,7 @@ import utils
 class SIFT_Methods:
     def __init__(self):
         self.sift = cv.SIFT_create(
+            # nOctaveLayers=3, contrastThreshold=0.05, edgeThreshold=8, sigma=1.7)
             nfeatures=0, nOctaveLayers=3, contrastThreshold=0.05, edgeThreshold=6, sigma=1.5)
         self.Preprocessing = utils.bgr2gray
 
@@ -124,7 +125,7 @@ class SIFT_Methods:
 if __name__ == "__main__":
     from time import time
     df = utils.load_data_csv()
-    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][25]))
+    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][28]))
     sift = SIFT_Methods()
     # t0 = time()
     # pred = sift.predict(img)
@@ -134,10 +135,11 @@ if __name__ == "__main__":
     kp, des = sift.feature_extraction(img)
     matchpt = sift.feature_matching_BF(
         kp, des, dis_threshold=100, spatial_dis_threshold=5)
+    print(len(kp))
     print(matchpt.shape)
     # pts = np.unique(np.vstack(matchpt), axis=0)
     # obtain condensed distance matrix (needed in linkage function)
-    cv.imshow('img_ori', img)
+    # cv.imshow('img_ori', img)
     img = cv.drawKeypoints(
         img, kp, img, flags=cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     for m in matchpt:

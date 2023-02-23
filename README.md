@@ -63,15 +63,18 @@ The baseline is a sift-based algorithm implemented in Python. With current param
 
 ## Project Goals Checkbox
 
-+ [x] Implement block-based algorithm (*it sucks because of its O(n^4) time complexity*)
-+ [ ] Implement feature-point-based algorithm.
-  + [x] SIFT feature
-  + [x] ORB feature
-  + [ ] Harris feature
-+ [ ] Implement matching algorithms
+<!-- + [x] Implement block-based algorithm (*it sucks because of its O(n^4) time complexity*) -->
++ [ ] Implement feature-point-based algorithms
+  + Key Points Extraction
+    + [x] SIFT
+    + [x] ORB
+    + [x] Harris Corner
+  + Feature Descriptor
+    + [x] SIFT feature
+    + [x] ORB feature
++ [x] Implement matching algorithms
   + [x] Brute-force matching
   + [x] Fann matching
-  + [ ] Hu moments matching
 + [x] Design a model performance evaluation framework
   + [x] Torch Dataset and DataLoader wrapper
   + [x] Model performance evaluation

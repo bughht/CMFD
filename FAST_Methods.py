@@ -8,16 +8,17 @@ from scipy.spatial.distance import pdist
 import utils
 
 
-class ORB_Methods:
+class FAST_Methods:
     def __init__(self):
-        self.orb = cv.ORB_create(
-            nfeatures=9000,
-            scaleFactor=1.3,
-            nlevels=15,
-            edgeThreshold=10,
-            fastThreshold=10
-        )
+        # self.orb = cv.cornerfast(
+        # )
         self.Preprocessing = utils.bgr2gray
+        self.fast = cv.FastFeatureDetector_create(
+            threshold=10,
+            nonmaxSuppression=True,
+            type=cv.FAST_FEATURE_DETECTOR_TYPE_9_16
+        )
+        self.sift_des = cv.SIFT_create()
 
     def feature_extraction(self, img):
         """Extract features from preprocessed image
@@ -29,10 +30,12 @@ class ORB_Methods:
             kp, des: keypoints and descriptors
         """
         img_pre = self.Preprocessing(img)
-        kp, des = self.orb.detectAndCompute(img_pre, None)
+        # kp, des = self.orb.detectAndCompute(img_pre, None)
+        kp = self.fast.detect(img_pre, None)
+        des = self.sift_des.compute(img_pre, kp)[1]
         return kp, des
 
-    def feature_matching_BF(self, kp, des, norm=cv.NORM_L2, k=2, dis_threshold=170, spatial_dis_threshold=10):
+    def feature_matching_BF(self, kp, des, norm=cv.NORM_L2, k=10, dis_threshold=94, spatial_dis_threshold=15):
         """Function for feature matching using Brute Force 
 
         Args:
@@ -94,7 +97,7 @@ class ORB_Methods:
     def predict(self,
                 img,
                 k=2,
-                dis_threshold=150,
+                dis_threshold=100,
                 spatial_dis_threshold=15,
                 match_method='BF'
                 ):
@@ -128,12 +131,12 @@ class ORB_Methods:
 
 if __name__ == "__main__":
     df = utils.load_data_csv()
-    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][20]))
-    orb = ORB_Methods()
-    kp, des = orb.feature_extraction(img)
-    matchpt = orb.feature_matching_BF(
+    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][10]))
+    fast = FAST_Methods()
+    kp, des = fast.feature_extraction(img)
+    matchpt = fast.feature_matching_BF(
         kp, des)
-    print(matchpt.shape)
+    # print(matchpt.shape)
     # img = cv.drawKeypoints(
     #     img, kp, img, flags=cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     img = cv.drawKeypoints(img, kp, None, color=(255, 0, 0))

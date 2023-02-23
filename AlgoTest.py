@@ -44,7 +44,7 @@ def load_dataloader():
         dataset,
         batch_size=1,
         shuffle=True,
-        num_workers=2
+        num_workers=1
     )
     return dataloader
 

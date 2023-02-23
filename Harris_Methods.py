@@ -8,16 +8,13 @@ from scipy.spatial.distance import pdist
 import utils
 
 
-class ORB_Methods:
+class Harris_Methods:
     def __init__(self):
-        self.orb = cv.ORB_create(
-            nfeatures=9000,
-            scaleFactor=1.3,
-            nlevels=15,
-            edgeThreshold=10,
-            fastThreshold=10
-        )
+        # self.orb = cv.cornerHarris(
+        # )
         self.Preprocessing = utils.bgr2gray
+        self.HarrisThreshold = 0.01
+        self.sift_des = cv.SIFT_create()
 
     def feature_extraction(self, img):
         """Extract features from preprocessed image
@@ -29,10 +26,16 @@ class ORB_Methods:
             kp, des: keypoints and descriptors
         """
         img_pre = self.Preprocessing(img)
-        kp, des = self.orb.detectAndCompute(img_pre, None)
+        # kp, des = self.orb.detectAndCompute(img_pre, None)
+        dst = cv.cornerHarris(img_pre, 2, 3, 0.04)
+        kp = np.argwhere(dst > self.HarrisThreshold * dst.max())
+        kp = [cv.KeyPoint(float(x[1]), float(x[0]), 13) for x in kp]
+        des = self.sift_des.compute(img_pre, kp)[1]
+        # cv.imshow("dst", dst)
+        # cv.waitKey(0)
         return kp, des
 
-    def feature_matching_BF(self, kp, des, norm=cv.NORM_L2, k=2, dis_threshold=170, spatial_dis_threshold=10):
+    def feature_matching_BF(self, kp, des, norm=cv.NORM_L2, k=10, dis_threshold=94, spatial_dis_threshold=5):
         """Function for feature matching using Brute Force 
 
         Args:
@@ -93,9 +96,9 @@ class ORB_Methods:
 
     def predict(self,
                 img,
-                k=2,
-                dis_threshold=150,
-                spatial_dis_threshold=15,
+                k=3,
+                dis_threshold=100,
+                spatial_dis_threshold=10,
                 match_method='BF'
                 ):
 
@@ -128,12 +131,12 @@ class ORB_Methods:
 
 if __name__ == "__main__":
     df = utils.load_data_csv()
-    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][20]))
-    orb = ORB_Methods()
-    kp, des = orb.feature_extraction(img)
-    matchpt = orb.feature_matching_BF(
+    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][10]))
+    harris = Harris_Methods()
+    kp, des = harris.feature_extraction(img)
+    matchpt = harris.feature_matching_BF(
         kp, des)
-    print(matchpt.shape)
+    # print(matchpt.shape)
     # img = cv.drawKeypoints(
     #     img, kp, img, flags=cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     img = cv.drawKeypoints(img, kp, None, color=(255, 0, 0))
