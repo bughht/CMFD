@@ -11,7 +11,7 @@ import utils
 class PATCH_SIFT_Methods:
     def __init__(self):
         self.Preprocessing = utils.bgr2gray
-        self.patch_size = (128, 128)
+        self.patch_size = (256, 256)
 
         # nfeatures=0, nOctaveLayers=4, contrastThreshold=0.05, edgeThreshold=6, sigma=1.5)
 
@@ -53,11 +53,12 @@ class PATCH_SIFT_Methods:
         des_list = []
         for patch_idx, patch in enumerate(patches):
             patch_laplacian = cv.Laplacian(patch, cv.CV_64F)
-            sigma = 1.1+1e2/np.var(patch_laplacian)
-            contrast_th = 0.02+1e2/np.var(patch_laplacian)
-            # print(sigma, contrast_th)
+            # print(np.var(patch_laplacian))
+            sigma = max(2-1e-5*np.var(patch_laplacian), 1.0)
+            # contrast_th = max(0.08-1e-5*np.var(patch_laplacian), 0.03)
+            # print(contrast_th)
             self.sift = cv.SIFT_create(
-                nOctaveLayers=3, contrastThreshold=contrast_th, edgeThreshold=8, sigma=sigma)
+                nOctaveLayers=3, contrastThreshold=0.05, edgeThreshold=6, sigma=sigma)
 
             kp, des = self.sift.detectAndCompute(patch, None)
             for kp_pt in kp:
@@ -98,7 +99,7 @@ class PATCH_SIFT_Methods:
                     break
         return np.asarray(good)
 
-    def feature_matching_Flann(self, kp, des, k=3, dis_threshold=60, spatial_dis_threshold=10):
+    def feature_matching_Flann(self, kp, des, k=3, dis_threshold=94, spatial_dis_threshold=10):
         """Function for feature matching using Flann
 
         Args:
@@ -131,7 +132,7 @@ class PATCH_SIFT_Methods:
     def predict(self,
                 img,
                 k=2,
-                dis_threshold=94,
+                dis_threshold=110,
                 spatial_dis_threshold=15,
                 match_method='BF'
                 ):
@@ -166,7 +167,7 @@ class PATCH_SIFT_Methods:
 if __name__ == "__main__":
     from time import time
     df = utils.load_data_csv()
-    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][28]))
+    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][23]))
     sift = PATCH_SIFT_Methods()
     # t0 = time()
     # pred = sift.predict(img)
@@ -176,7 +177,7 @@ if __name__ == "__main__":
     kp, des = sift.feature_extraction(img)
     print(len(kp))
     matchpt = sift.feature_matching_BF(
-        kp, des, dis_threshold=100, spatial_dis_threshold=5)
+        kp, des, dis_threshold=80, spatial_dis_threshold=5)
     # print(matchpt.shape)
     # # pts = np.unique(np.vstack(matchpt), axis=0)
     # # obtain condensed distance matrix (needed in linkage function)
