@@ -56,9 +56,9 @@ class PATCH_SIFT_Methods:
             # print(np.var(patch_laplacian))
             sigma = max(2-1e-5*np.var(patch_laplacian), 1.0)
             # contrast_th = max(0.08-1e-5*np.var(patch_laplacian), 0.03)
-            # print(contrast_th)
+            # print(sigma)
             self.sift = cv.SIFT_create(
-                nOctaveLayers=3, contrastThreshold=0.05, edgeThreshold=6, sigma=sigma)
+                nOctaveLayers=3, contrastThreshold=0.042, edgeThreshold=3.2, sigma=sigma)
 
             kp, des = self.sift.detectAndCompute(patch, None)
             for kp_pt in kp:
@@ -158,7 +158,7 @@ class PATCH_SIFT_Methods:
             _, counts = np.unique(cluster, return_counts=True)
             counts = np.sort(counts)
             top2_cluster = counts[-2:]
-            if top2_cluster.sum() >= 8:
+            if top2_cluster.sum() >= 4:
                 return 1
             else:
                 return 0
