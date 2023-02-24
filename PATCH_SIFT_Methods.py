@@ -12,16 +12,17 @@ class PATCH_SIFT_Methods:
     def __init__(self):
         self.Preprocessing = utils.bgr2gray
         self.patch_size = (256, 256)
+        # self.patch_size = (200, 200)
 
         # nfeatures=0, nOctaveLayers=4, contrastThreshold=0.05, edgeThreshold=6, sigma=1.5)
 
     def split_img(self, gray_img, patch_size):
-        width, height = gray_img.shape
+        height, width = gray_img.shape
         patch_width, patch_height = patch_size
 
         # Compute number of patches in each dimension
-        num_patches_w = width // patch_width
-        num_patches_h = height // patch_height
+        num_patches_w = int(np.ceil(width // patch_width))
+        num_patches_h = int(np.ceil(height // patch_height))
 
         # Extract non-overlapping patches
         patches = []
@@ -30,13 +31,13 @@ class PATCH_SIFT_Methods:
             for j in range(num_patches_w):
                 left = j * patch_width
                 top = i * patch_height
-                right = left + patch_width
-                bottom = top + patch_height
-                patch = gray_img[left:right, top:bottom]
+                right = min(width, left + patch_width)
+                bottom = min(height, top + patch_height)
+                patch = gray_img[top:bottom, left:right]
                 patches.append(patch)
-                locations.append([left, top])
+                locations.append([top, left])
 
-        return np.asarray(patches), np.asarray(locations)
+        return patches, np.asarray(locations)
 
     def feature_extraction(self, img):
         """Extract features from preprocessed image
@@ -167,7 +168,7 @@ class PATCH_SIFT_Methods:
 if __name__ == "__main__":
     from time import time
     df = utils.load_data_csv()
-    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][23]))
+    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][38]))
     sift = PATCH_SIFT_Methods()
     # t0 = time()
     # pred = sift.predict(img)
@@ -177,7 +178,7 @@ if __name__ == "__main__":
     kp, des = sift.feature_extraction(img)
     print(len(kp))
     matchpt = sift.feature_matching_BF(
-        kp, des, dis_threshold=80, spatial_dis_threshold=5)
+        kp, des, dis_threshold=110, spatial_dis_threshold=15)
     # print(matchpt.shape)
     # # pts = np.unique(np.vstack(matchpt), axis=0)
     # # obtain condensed distance matrix (needed in linkage function)
