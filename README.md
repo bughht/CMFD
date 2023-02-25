@@ -110,6 +110,7 @@ We've tested the following algorithms on MICC-F220 dataset based on our framewor
 + Patch-SIFT
 + SIFT
 + ORB
++ FAST
 
 ## Patch-SIFT
 
@@ -135,7 +136,6 @@ We've tested the following algorithms on MICC-F220 dataset based on our framewor
 
 ![cm](img/cm_SIFT.png)
 
-
 ### ORB
 
 | ORB          | precision | recall | f1-score | support |
@@ -147,7 +147,6 @@ We've tested the following algorithms on MICC-F220 dataset based on our framewor
 + Confusion-Matrix:
 
 ![cm](img/cm_ORB.png)
-
 
 ## Project Goals Checkbox
 
