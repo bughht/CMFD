@@ -26,28 +26,58 @@ python 3.7+
 pip install -r Requirements.txt
 ```
 
+## Usage
+
+```bash
+git clone https://github.com/bughht/CMFD.git
+cd CMFD
+```
+
 ## Baseline: SIFT
 
-The baseline is a sift-based algorithm implemented in Python. With current parameters, the evaluation result of this algorithm on MICC-F220 is shown below.
+The baseline is a sift-based algorithm implemented in Python. With current parameters, the evaluation of this algorithm on MICC-F220 is shown below.
 
 **Accuracy:** 81.36%
 **Precision:** 76.74%
 **Recall:** 90.00%
 **F1 Score:** 82.85%
 
+## Enhancement: Patch-SIFT
+
++ Principle: Split images into patches and adapt the parameters of SIFT (sigma) to the smoothness of the patch.
++ Algorithm:
+  + Split the image into patches
+  + For each patch, calculate the smoothness of the patch (using the variance of the Laplacian)
+  + For each patch, adapt the parameters of SIFT (sigma) to the smoothness of the patch (using linear model) and apply SIFT to the patch
+  + Apply Brute-Force Matching to the image
+  + Evaluate the performance of the algorithm
++ Evaluation:
+**Accuracy:** 86.82%
+**Precision:** 86.49%
+**Recall:** 87.27%
+**F1 Score:** 86.88%
+
 ## Experiment Results
 
-### SIFT
+We've tested the following algorithms on MICC-F220 dataset based on our framework:
 
-| SIFT         | precision | recall | f1-score | support |
++ Patch-SIFT
++ SIFT
++ ORB
+
+
+
+## Patch-SIFT
+
+| Patch-SIFT   | precision | recall | f1-score | support |
 | ------------ | :-------- | :----- | :------- | :------ |
-| No Copy-Move | 0.88      | 0.73   | 0.80     | 110     |
-| Copy-Move    | 0.77      | 0.90   | 0.83     | 110     |
+| No Copy-Move | 0.87      | 0.86   | 0.87     | 110     |
+| Copy-Move    | 0.86      | 0.87   | 0.87     | 110     |
 
-+ Accuracy:81.36% Precision:76.74% Recall:90.00% F1 Score:82.85%
-+ Confusion-Matrix:
++ Accuracy:86.82% Precision:86.49% Recall:87.27%
++ Confusion Matrix
 
-![cm](img/cm_SIFT.png)
+![cm](img/cm_PATCH_SIFT.png)
 
 ### ORB
 
@@ -61,15 +91,27 @@ The baseline is a sift-based algorithm implemented in Python. With current param
 
 ![cm](img/cm_ORB.png)
 
+### SIFT
+
+| SIFT         | precision | recall | f1-score | support |
+| ------------ | :-------- | :----- | :------- | :------ |
+| No Copy-Move | 0.88      | 0.73   | 0.80     | 110     |
+| Copy-Move    | 0.77      | 0.90   | 0.83     | 110     |
+
++ Accuracy:81.36% Precision:76.74% Recall:90.00% F1 Score:82.85%
++ Confusion-Matrix:
+
+![cm](img/cm_SIFT.png)
+
 ## Project Goals Checkbox
 
-<!-- + [x] Implement block-based algorithm (*it sucks because of its O(n^4) time complexity*) -->
-+ [ ] Implement feature-point-based algorithms
-  + Key Points Extraction
++ [x] Implement feature-point-based algorithms
+  + [x] Key Points Extraction
     + [x] SIFT
     + [x] ORB
+    + [x] FAST
     + [x] Harris Corner
-  + Feature Descriptor
+  + [x] Feature Descriptor
     + [x] SIFT feature
     + [x] ORB feature
 + [x] Implement matching algorithms
@@ -78,6 +120,7 @@ The baseline is a sift-based algorithm implemented in Python. With current param
 + [x] Design a model performance evaluation framework
   + [x] Torch Dataset and DataLoader wrapper
   + [x] Model performance evaluation
++ [x] Enhance one of the algorithm tested above
 
 ## Contribution
 
