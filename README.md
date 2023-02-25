@@ -7,31 +7,77 @@ Copy-Move Forgery Detection and Localization
 
 Copy-Move Forgery Detection (CMFD) is a technique to detect and localize copy-move forgery in images. The goal of this project is to implement multiple CMFD algorithms in python and evaluate the performance.
 
+We design a framework to evaluate the performance of the algorithm. The framework is based on PyTorch and can be easily extended to other algorithms.
+
+Besides, we also implement a baseline algorithm (SIFT) and enhance it with patched self-adaptive methods to improve the performance.
+
 ## Group Info
 
 + [Haotian Hong](https://github.com/bughht)
 + [Zhenyu Jin](https://github.com/getOcr)
 
-*Talk is cheap, show me the code.*
+Phenomenon: *Talk is cheap, show me the code.*
 
 ## Dataset
 
 [MICC-F220](http://lci.micc.unifi.it/labd/cmfd/MICC-F220.zip): this dataset is composed by 220 images; 110 are tampered and 110 originals.
 
-## Requirements
+## Pre-requisites
 
-python 3.7+
++ python>=3.7
++ opencv-python
++ numpy
++ sklearn
++ torch
++ pandas
 
-```python
+## Installation
+
+```bash
+git clone https://github.com/bughht/CMFD.git
+cd CMFD
+wget http://lci.micc.unifi.it/labd/cmfd/MICC-F220.zip
+unzip MICC-F220.zip
 pip install -r Requirements.txt
 ```
 
 ## Usage
 
+### Run the baseline
+
 ```bash
-git clone https://github.com/bughht/CMFD.git
-cd CMFD
+python AlgoTest.py -a SIFT_Methods
 ```
+
+### Design your own algorithm
+
+Make sure your algorithm is written in the format below:
+
+Filename: `MyAlgorithm.py`
+
+```python
+class MyAlgorithm:
+    def __init__(self, **kwargs):
+        # initialize your algorithm
+
+    def predict(self, img):
+        # detect copy-move forgery in the image
+        # return the classification result (0 or 1)
+```
+
+Then run the following command:
+
+```bash
+python AlgoTest.py -a MyAlgorithm
+```
+
+or
+
+```bash
+python AlgoTest.py --algorithm MyAlgorithm
+```
+
+
 
 ## Baseline: SIFT
 
@@ -44,14 +90,14 @@ The baseline is a sift-based algorithm implemented in Python. With current param
 
 ## Enhancement: Patch-SIFT
 
-+ Principle: Split images into patches and adapt the parameters of SIFT (sigma) to the smoothness of the patch.
-+ Algorithm:
++ **Principle**: Split images into patches and adapt the parameters of SIFT (sigma) to the smoothness of the patch.
++ **Algorithm**:
   + Split the image into patches
   + For each patch, calculate the smoothness of the patch (using the variance of the Laplacian)
   + For each patch, adapt the parameters of SIFT (sigma) to the smoothness of the patch (using linear model) and apply SIFT to the patch
   + Apply Brute-Force Matching to the image
   + Evaluate the performance of the algorithm
-+ Evaluation:
+
 **Accuracy:** 86.82%
 **Precision:** 86.49%
 **Recall:** 87.27%
@@ -65,8 +111,6 @@ We've tested the following algorithms on MICC-F220 dataset based on our framewor
 + SIFT
 + ORB
 
-
-
 ## Patch-SIFT
 
 | Patch-SIFT   | precision | recall | f1-score | support |
@@ -78,6 +122,19 @@ We've tested the following algorithms on MICC-F220 dataset based on our framewor
 + Confusion Matrix
 
 ![cm](img/cm_PATCH_SIFT.png)
+
+### SIFT
+
+| SIFT         | precision | recall | f1-score | support |
+| ------------ | :-------- | :----- | :------- | :------ |
+| No Copy-Move | 0.88      | 0.73   | 0.80     | 110     |
+| Copy-Move    | 0.77      | 0.90   | 0.83     | 110     |
+
++ Accuracy:81.36% Precision:76.74% Recall:90.00% F1 Score:82.85%
++ Confusion-Matrix:
+
+![cm](img/cm_SIFT.png)
+
 
 ### ORB
 
@@ -91,17 +148,6 @@ We've tested the following algorithms on MICC-F220 dataset based on our framewor
 
 ![cm](img/cm_ORB.png)
 
-### SIFT
-
-| SIFT         | precision | recall | f1-score | support |
-| ------------ | :-------- | :----- | :------- | :------ |
-| No Copy-Move | 0.88      | 0.73   | 0.80     | 110     |
-| Copy-Move    | 0.77      | 0.90   | 0.83     | 110     |
-
-+ Accuracy:81.36% Precision:76.74% Recall:90.00% F1 Score:82.85%
-+ Confusion-Matrix:
-
-![cm](img/cm_SIFT.png)
 
 ## Project Goals Checkbox
 
