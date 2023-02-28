@@ -55,7 +55,9 @@ class PATCH_SIFT_Methods:
         for patch_idx, patch in enumerate(patches):
             patch_laplacian = cv.Laplacian(patch, cv.CV_64F)
             # print(np.var(patch_laplacian))
-            sigma = max(2-1e-5*np.var(patch_laplacian), 1.0)
+            sigma = max(2-1e-5*np.var(patch_laplacian), 1.9)
+            # sigma = min(.1+1e-2*np.var(patch_laplacian), 1.95)
+            # print(sigma)
             # contrast_th = max(0.08-1e-5*np.var(patch_laplacian), 0.03)
             # print(sigma)
             self.sift = cv.SIFT_create(
@@ -168,7 +170,7 @@ class PATCH_SIFT_Methods:
 if __name__ == "__main__":
     from time import time
     df = utils.load_data_csv()
-    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][38]))
+    img = cv.imread(os.path.join(utils.__rootdir__, df['img'][28]))
     sift = PATCH_SIFT_Methods()
     # t0 = time()
     # pred = sift.predict(img)

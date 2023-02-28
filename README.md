@@ -173,12 +173,38 @@ We are welcome to any contribution to this project. If you are interested in thi
 
 ## References
 
-+ Amerini, I., Ballan, L., Caldelli, R., Del Bimbo, A., & Serra, G. (2011). A sift-based forensic method for copy–move attack detection and transformation recovery. IEEE transactions on information forensics and security, 6(3), 1099-1110.
+<details>
+<summary>
+Expand all
+</summary>
+<pre>
+[1]		FADL S M, SEMARY N A. Robust copy--move forgery revealing in digital images using polar coordinate system[J]. Neurocomputing, 2017, 265: 57-65.
+[2]		LEE J C, CHANG C P, CHEN W K. Detection of copy--move image forgery using histogram of orientated gradients[J]. Information Sciences, 2015, 321: 250-262.
+[3]		ULIYAN D M, JALAB H A, ABDUL WAHAB A W. Image region duplication forgery detection based on angular radial partitioning and Harris key-points[J]. Symmetry, 2016, 8(7): 62.
+[4]		HOSNY K M, HAMZA H M, LASHIN N A. Copy-move forgery detection of duplicated objects using accurate PCET moments and morphological operators[J]. The Imaging Science Journal, 2018, 66(6): 330-345.
+[5]		SZEGEDY C, LIU W, JIA Y. Going deeper with convolutions[J/OL]. Proceedings of the IEEE Computer Society Conference on Computer Vision and Pattern Recognition, 2015, 07-12-June: 1-9. DOI:10.1109/CVPR.2015.7298594.
+[6]		KUZNETSOV A, MYASNIKOV V. A new copy-move forgery detection algorithm using image preprocessing procedure[J]. Procedia engineering, 2017, 201: 436-444.
+[7]		PUN C M, CHUNG J L. A two-stage localization for copy-move forgery detection[J]. Information Sciences, 2018, 463: 33-55.
+[8]		JWAID M F, BARASKAR T N. Detection of Copy-Move Image Forgery Using Local Binary Pattern with Discrete Wavelet Transform and Principle Component Analysis[C/OL]//2017 International Conference on Computing, Communication, Control and Automation (ICCUBEA). 2017: 1-6. DOI:10.1109/ICCUBEA.2017.8463695.
+[9]		DIXIT R, NASKAR R, SAHOO A. Copy-move forgery detection exploiting statistical image features[C/OL]//2017 International Conference on Wireless Communications, Signal Processing and Networking (WiSPNET). 2017: 2277-2281. DOI:10.1109/WiSPNET.2017.8300165.
+[10]	HILAL A, HAMZEH T, CHANTAF S. Copy-move forgery detection using principal component analysis and discrete cosine transform[C/OL]//2017 Sensors Networks Smart and Emerging Technologies (SENSET). 2017: 1-4. DOI:10.1109/SENSET.2017.8125021.
+[11]	SÁNCHEZ J, MONZÓN N, SALGADO DE LA NUEZ A. An analysis and implementation of the harris corner detector[J]. Image Processing On Line, 2018.
+[12]	LOWE D G. Distinctive image features from scale-invariant keypoints[J]. International journal of computer vision, 2004, 60: 91-110.
+[13]	MUZAFFER G, ULUTAS G. A fast and effective digital image copy move forgery detection with binarized SIFT[C/OL]//2017 40th International Conference on Telecommunications and Signal Processing (TSP). 2017: 595-598. DOI:10.1109/TSP.2017.8076056.
+[14]	SHAHROUDNEJAD A, RAHMATI M. Copy-move forgery detection in digital images using affine-SIFT[C/OL]//2016 2nd International Conference of Signal Processing and Intelligent Systems (ICSPIS). 2016: 1-5. DOI:10.1109/ICSPIS.2016.7869896.
+[15]	JIN G, WAN X. An improved method for SIFT-based copy–move forgery detection using non-maximum value suppression and optimized J-Linkage[J]. Signal Processing: Image Communication, 2017, 57: 113-125.
+[16]	LEE J C. Copy-move image forgery detection based on Gabor magnitude[J]. Journal of visual communication and image representation, 2015, 31: 320-334.
+[17]	ZANDI M, MAHMOUDI-AZNAVEH A, TALEBPOUR A. Iterative Copy-Move Forgery Detection Based on a New Interest Point Detector[J/OL]. IEEE Transactions on Information Forensics and Security, 2016, 11(11): 2499-2512. DOI:10.1109/TIFS.2016.2585118.
+[18]	AMERINI I, BALLAN L, CALDELLI R. A SIFT-Based Forensic Method for Copy–Move Attack Detection and Transformation Recovery[J/OL]. IEEE Transactions on Information Forensics and Security, 2011, 6(3): 1099-1110. DOI:10.1109/TIFS.2011.2129512.
+[19]	YADAV N, KAPDI R. Copy move forgery detection using SIFT and GMM[C/OL]//2015 5th Nirma University International Conference on Engineering (NUiCONE). 2015: 1-4. DOI:10.1109/NUICONE.2015.7449647.
+[20]	ALBERRY H A, HEGAZY A A, SALAMA G I. A fast SIFT based method for copy move forgery detection[J]. Future Computing and Informatics Journal, 2018, 3(2): 159-165.
+[21]	MOUSSA A M. A fast and accurate algorithm for copy-move forgery detection[C/OL]//2015 Tenth International Conference on Computer Engineering & Systems (ICCES). 2015: 281-285. DOI:10.1109/ICCES.2015.7393060.
+[22]	LI J, LI X, YANG B. Segmentation-based image copy-move forgery detection scheme[J]. IEEE transactions on information forensics and security, 2014, 10(3): 507-518.
+[23]	WANG X Y, LI S, LIU Y N. A new keypoint-based copy-move forgery detection for small smooth regions[J]. Multimedia Tools and Applications, 2017, 76: 23353-23382.
+[24]	FISCHLER M A, BOLLES R C. Random sample consensus: a paradigm for model fitting with applications to image analysis and automated cartography[J]. Communications of the ACM, 1981, 24(6): 381-395.
+[25]	AL-HAMMADI M M, EMMANUEL S. Improving SURF Based Copy-Move Forgery Detection Using Super Resolution[C/OL]//2016 IEEE International Symposium on Multimedia (ISM). 2016: 341-344. DOI:10.1109/ISM.2016.0075.
+[26]	COZZOLINO D, POGGI G, VERDOLIVA L. Efficient Dense-Field Copy–Move Forgery Detection[J/OL]. IEEE Transactions on Information Forensics and Security, 2015, 10(11): 2284-2297. DOI:10.1109/TIFS.2015.2455334.
 
-+ Feature detection and description. OpenCV. (n.d.). Retrieved January 1, 2023, from https://docs.opencv.org/4.x/db/d27/tutorial_py_table_of_contents_feature2d.html 
 
-+ Christlein, V., Riess, C., Jordan, J., Riess, C., & Angelopoulou, E. (2012). An evaluation of popular copy-move forgery detection approaches. IEEE Transactions on information forensics and security, 7(6), 1841-1854.
-
-+ Geng, L. C., Jodoin, P. M., Su, S. Z., & Li, S. Z. (2016). CBDF: compressed binary discriminative feature. Neurocomputing, 184, 43-54.
-
-+ Raju, P. M., & Nair, M. S. (2022). Copy-move forgery detection using binary discriminant features. Journal of King Saud University-Computer and Information Sciences, 34(2), 165-178.
+</pre>
+</details>
