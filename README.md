@@ -178,15 +178,15 @@ We are welcome to any contribution to this project. If you are interested in thi
 Expand all
 </summary>
 <pre>
-[1]		FADL S M, SEMARY N A. Robust copy--move forgery revealing in digital images using polar coordinate system[J]. Neurocomputing, 2017, 265: 57-65.
-[2]		LEE J C, CHANG C P, CHEN W K. Detection of copy--move image forgery using histogram of orientated gradients[J]. Information Sciences, 2015, 321: 250-262.
-[3]		ULIYAN D M, JALAB H A, ABDUL WAHAB A W. Image region duplication forgery detection based on angular radial partitioning and Harris key-points[J]. Symmetry, 2016, 8(7): 62.
-[4]		HOSNY K M, HAMZA H M, LASHIN N A. Copy-move forgery detection of duplicated objects using accurate PCET moments and morphological operators[J]. The Imaging Science Journal, 2018, 66(6): 330-345.
-[5]		SZEGEDY C, LIU W, JIA Y. Going deeper with convolutions[J/OL]. Proceedings of the IEEE Computer Society Conference on Computer Vision and Pattern Recognition, 2015, 07-12-June: 1-9. DOI:10.1109/CVPR.2015.7298594.
-[6]		KUZNETSOV A, MYASNIKOV V. A new copy-move forgery detection algorithm using image preprocessing procedure[J]. Procedia engineering, 2017, 201: 436-444.
-[7]		PUN C M, CHUNG J L. A two-stage localization for copy-move forgery detection[J]. Information Sciences, 2018, 463: 33-55.
-[8]		JWAID M F, BARASKAR T N. Detection of Copy-Move Image Forgery Using Local Binary Pattern with Discrete Wavelet Transform and Principle Component Analysis[C/OL]//2017 International Conference on Computing, Communication, Control and Automation (ICCUBEA). 2017: 1-6. DOI:10.1109/ICCUBEA.2017.8463695.
-[9]		DIXIT R, NASKAR R, SAHOO A. Copy-move forgery detection exploiting statistical image features[C/OL]//2017 International Conference on Wireless Communications, Signal Processing and Networking (WiSPNET). 2017: 2277-2281. DOI:10.1109/WiSPNET.2017.8300165.
+[1]	FADL S M, SEMARY N A. Robust copy--move forgery revealing in digital images using polar coordinate system[J]. Neurocomputing, 2017, 265: 57-65.
+[2]	LEE J C, CHANG C P, CHEN W K. Detection of copy--move image forgery using histogram of orientated gradients[J]. Information Sciences, 2015, 321: 250-262.
+[3]	ULIYAN D M, JALAB H A, ABDUL WAHAB A W. Image region duplication forgery detection based on angular radial partitioning and Harris key-points[J]. Symmetry, 2016, 8(7): 62.
+[4]	HOSNY K M, HAMZA H M, LASHIN N A. Copy-move forgery detection of duplicated objects using accurate PCET moments and morphological operators[J]. The Imaging Science Journal, 2018, 66(6): 330-345.
+[5]	SZEGEDY C, LIU W, JIA Y. Going deeper with convolutions[J/OL]. Proceedings of the IEEE Computer Society Conference on Computer Vision and Pattern Recognition, 2015, 07-12-June: 1-9. DOI:10.1109/CVPR.2015.7298594.
+[6]	KUZNETSOV A, MYASNIKOV V. A new copy-move forgery detection algorithm using image preprocessing procedure[J]. Procedia engineering, 2017, 201: 436-444.
+[7]	PUN C M, CHUNG J L. A two-stage localization for copy-move forgery detection[J]. Information Sciences, 2018, 463: 33-55.
+[8]	JWAID M F, BARASKAR T N. Detection of Copy-Move Image Forgery Using Local Binary Pattern with Discrete Wavelet Transform and Principle Component Analysis[C/OL]//2017 International Conference on Computing, Communication, Control and Automation (ICCUBEA). 2017: 1-6. DOI:10.1109/ICCUBEA.2017.8463695.
+[9]	DIXIT R, NASKAR R, SAHOO A. Copy-move forgery detection exploiting statistical image features[C/OL]//2017 International Conference on Wireless Communications, Signal Processing and Networking (WiSPNET). 2017: 2277-2281. DOI:10.1109/WiSPNET.2017.8300165.
 [10]	HILAL A, HAMZEH T, CHANTAF S. Copy-move forgery detection using principal component analysis and discrete cosine transform[C/OL]//2017 Sensors Networks Smart and Emerging Technologies (SENSET). 2017: 1-4. DOI:10.1109/SENSET.2017.8125021.
 [11]	SÁNCHEZ J, MONZÓN N, SALGADO DE LA NUEZ A. An analysis and implementation of the harris corner detector[J]. Image Processing On Line, 2018.
 [12]	LOWE D G. Distinctive image features from scale-invariant keypoints[J]. International journal of computer vision, 2004, 60: 91-110.
